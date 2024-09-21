@@ -149,37 +149,42 @@
     }
 
     function completeSurvey() {
-      const draggables = document.querySelectorAll('.draggable');
-      const result = {
-        slot1: document.querySelector('#slot1 > .draggable')?.textContent || '',
-        slot2: document.querySelector('#slot2 > .draggable')?.textContent || '',
-        slot3: document.querySelector('#slot3 > .draggable')?.textContent || '',
-        slot4: document.querySelector('#slot4 > .draggable')?.textContent || '',
-        slot5: document.querySelector('#slot5 > .draggable')?.textContent || '',
-        slot6: document.querySelector('#slot6 > .draggable')?.textContent || '',
-        slot7: document.querySelector('#slot7 > .draggable')?.textContent || ''
-      };
+  const draggables = document.querySelectorAll('.draggable');
+  const result = {
+    slot1: document.querySelector('#slot1 > .draggable')?.textContent || '',
+    slot2: document.querySelector('#slot2 > .draggable')?.textContent || '',
+    slot3: document.querySelector('#slot3 > .draggable')?.textContent || '',
+    slot4: document.querySelector('#slot4 > .draggable')?.textContent || '',
+    slot5: document.querySelector('#slot5 > .draggable')?.textContent || '',
+    slot6: document.querySelector('#slot6 > .draggable')?.textContent || '',
+    slot7: document.querySelector('#slot7 > .draggable')?.textContent || ''
+  };
 
-      // Use your actual Google Apps Script URL here
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbw_FBseq-XUlne13eArbvCubKpxH8ESpHUuirR_-TVB_8AL3lQSkNPXjNWvRU9YHJNh/exec';
+  // Use your actual Google Apps Script URL here
+  const scriptURL = 'https://script.google.com/macros/s/YOUR_GOOGLE_APPS_SCRIPT_URL/exec';
 
-      fetch(scriptURL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(result),
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        alert('Survey submitted successfully!');
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Error submitting the survey');
-      });
+  fetch(scriptURL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(result),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok: ' + response.statusText);
     }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Success:', data);
+    alert('Survey submitted successfully!');
+  })
+  .catch(error => {
+    console.error('Fetch Error:', error.message);
+    alert('Error submitting the survey: ' + error.message);
+  });
+}
   </script>
 </body>
 </html>
