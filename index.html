@@ -148,43 +148,44 @@
       }
     }
 
-    function completeSurvey() {
-  const draggables = document.querySelectorAll('.draggable');
-  const result = {
-    slot1: document.querySelector('#slot1 > .draggable')?.textContent || '',
-    slot2: document.querySelector('#slot2 > .draggable')?.textContent || '',
-    slot3: document.querySelector('#slot3 > .draggable')?.textContent || '',
-    slot4: document.querySelector('#slot4 > .draggable')?.textContent || '',
-    slot5: document.querySelector('#slot5 > .draggable')?.textContent || '',
-    slot6: document.querySelector('#slot6 > .draggable')?.textContent || '',
-    slot7: document.querySelector('#slot7 > .draggable')?.textContent || ''
-  };
+    <script>
+  function completeSurvey() {
+    const draggables = document.querySelectorAll('.draggable');
+    const result = {
+      slot1: document.querySelector('#slot1 > .draggable')?.textContent || '',
+      slot2: document.querySelector('#slot2 > .draggable')?.textContent || '',
+      slot3: document.querySelector('#slot3 > .draggable')?.textContent || '',
+      slot4: document.querySelector('#slot4 > .draggable')?.textContent || '',
+      slot5: document.querySelector('#slot5 > .draggable')?.textContent || '',
+      slot6: document.querySelector('#slot6 > .draggable')?.textContent || '',
+      slot7: document.querySelector('#slot7 > .draggable')?.textContent || ''
+    };
 
-  // Use your actual Google Apps Script URL here
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbxlS0WxTxMscsXyKWhg7IqV2WT6qT2crQuVjBFTP-lW7xfUEruaXya3Ab7DIxDSMOit/exec';
+    // Use your actual Google Apps Script URL here
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwJS-xKzIgVpFU0Cysq5EZH-7qbMjIrD8yEdq5RX-oZfdDj3d2ByN1MbvfAnURfen9W/exec';
 
-  fetch(scriptURL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(result),
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok: ' + response.statusText);
-    }
-    return response.json();
-  })
-  .then(data => {
-    console.log('Success:', data);
-    alert('Survey submitted successfully!');
-  })
-  .catch(error => {
-    console.error('Fetch Error:', error.message);
-    alert('Error submitting the survey: ' + error.message);
-  });
-}
-  </script>
+    fetch(scriptURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(result),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok: ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      alert('Survey submitted successfully!');
+    })
+    .catch(error => {
+      console.error('Fetch Error:', error.message);
+      alert('Error submitting the survey: ' + error.message);
+    });
+  }
+</script>
 </body>
 </html>
