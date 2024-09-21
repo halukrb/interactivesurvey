@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drag and Drop Poll with Slots</title>
+  <style>
+    /* Styling for the image */
+    #pollImage {
+      width: 1100px; /* Adjust width based on the image dimensions */
+      height: 600px; /* Adjust height based on the image dimensions */
+      position: relative;
+      border: 2px solid #ddd;
+    }
+
+    /* Styling for the draggable headings */
+    .draggable {
+      width: 80px; /* Reduced width */
+      height: 40px; /* Reduced height */
+      background-color: #4CAF50; /* Default color for buttons */
+      color: white;
+      text-align: center;
+      padding: 5px; /* Add padding for comfortable text fit */
+      margin: 5px;
+      cursor: pointer;
+      font-size: 10px; /* Font size to fit button */
+      white-space: normal; /* Allow text to wrap */
+      word-wrap: break-word; /* Ensure long words break */
+      border-radius: 5px;
+    }
+
+    /* Flexbox container for side-by-side alignment */
+    #draggables {
+      display: flex;
+      flex-wrap: wrap; /* Wrap to the next line if the screen is too narrow */
+      justify-content: space-around; /* Spread items evenly */
+      min-height: 100px; /* Reduced container height */
+      border: 2px dashed #ddd;
+      padding: 10px;
+      background-color: #f1f1f1; /* Gray background when empty */
+    }
+
+    /* Styling for the slots where items can be dropped */
+    .slot {
+      width: 80px; /* Reduced width */
+      height: 40px; /* Reduced height */
+      background-color: #f1f1f1;
+      border: 2px dashed #ddd;
+      position: absolute;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    /* Positioning slots based on the image */
+    #slot1 { top: 20px; left: 1000px; }  /* Inquiry Basket */
+    #slot2 { top: 20px; left: 870px; }  /* Account Button */
+    #slot3 { top: 20px; left: 740px; }  /* Help Button */
+    #slot4 { top: 20px; left: 610px; }  /* Language Button */
+    #slot5 { top: 150px; left: 20px; }  /* Category Button */
+    #slot6 { top: 270px; left: 20px; }  /* Men's T-shirt */
+    #slot7 { top: 380px; left: 20px; }  /* Women's T-shirt */
+
+    /* Styling for the note */
+    #note {
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Styling for the Completed button */
+    #completed-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Interactive Poll - Drag and Drop into Slots</h1>
+
+  <!-- Draggable Headings -->
+  <div id="draggables" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <div id="heading1" class="draggable" draggable="true" ondragstart="drag(event)" ondrop="drop(event)">Inquiry basket</div>
+    <div id="heading2" class="draggable" draggable="true" ondragstart="drag(event)" ondrop="drop(event)">Account button</div>
+    <div id="heading3" class="draggable" draggable="true" ondragstart="drag(event)" ondrop="drop(event)">Help button</div>
+    <div id="heading4" class="draggable" draggable="true" ondragstart="drag(event)" ondrop="drop(event)">Language button</div>
+    <div id="heading5" class="draggable" draggable="true" ondragstart="drag(event)" ondrop="drop(event)">Category button</div>
+    <div id="heading6" class="draggable" draggable="true" ondragstart="drag(event)" ondrop="drop(event)">Men's T-shirt</div>
+    <div id="heading7" class="draggable" draggable="true" ondragstart="drag(event)" ondrop="drop(event)">Women's T-shirt</div>
+  </div>
+
+  <!-- Note placed between the draggable buttons and the poll image -->
+  <div id="note">
+    This survey is a 7 draggable interactive survey that you are expected to fill in the 7 empty slots you see on the website. 
+    Place the buttons where you think they are most appropriate. When you have finished the survey, please click on the completed button at the bottom.
+  </div>
+
+  <!-- Poll Image with Slots -->
+  <div id="pollImage">
+    <img src="index.png" alt="Poll Image" style="width: 100%; height: 100%;" />
+    <div id="slot1" class="slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="slot2" class="slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="slot3" class="slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="slot4" class="slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="slot5" class="slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="slot6" class="slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="slot7" class="slot" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+  </div>
+
+  <!-- Completed Button -->
+  <button id="completed-btn" onclick="completeSurvey()">Completed</button>
+
+  <script>
+    function allowDrop(event) {
+      event.preventDefault();
+    }
+
+    function drag(event) {
+      event.dataTransfer.setData("text", event.target.id);
+    }
+
+    function drop(event) {
+      event.preventDefault();
+      var data = event.dataTransfer.getData("text");
+      var droppedElement = document.getElementById(data);
+
+      if (event.target.classList.contains('slot') || event.target.id === 'draggables') {
+        event.target.appendChild(droppedElement);
+        
+        droppedElement.style.backgroundColor = '#808080';  // Gray when placed in slot
+        
+        if (event.target.id === 'draggables') {
+          droppedElement.style.backgroundColor = '#4CAF50';  // Revert color back to green
+        }
+      }
+    }
+
+    function completeSurvey() {
+      const draggables = document.querySelectorAll('.draggable');
+      const result = {
+        slot1: document.querySelector('#slot1 > .draggable')?.textContent || '',
+        slot2: document.querySelector('#slot2 > .draggable')?.textContent || '',
+        slot3: document.querySelector('#slot3 > .draggable')?.textContent || '',
+        slot4: document.querySelector('#slot4 > .draggable')?.textContent || '',
+        slot5: document.querySelector('#slot5 > .draggable')?.textContent || '',
+        slot6: document.querySelector('#slot6 > .draggable')?.textContent || '',
+        slot7: document.querySelector('#slot7 > .draggable')?.textContent || ''
+      };
+
+      // Use your actual Google Apps Script URL here
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbwCGV-W-PNOOolHJeSp49cdt3FpcHXbw8Jx8zcgw4OjGem9HcGR2SemmTR-E2dAjdmU5g/exec';
+
+      fetch(scriptURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(result),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        alert('Survey submitted successfully!');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error submitting the survey');
+      });
+    }
+  </script>
+</body>
+</html>
